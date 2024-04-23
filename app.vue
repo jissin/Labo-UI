@@ -39,7 +39,7 @@
 
     <display
       title="Infinite Scrolling Carousel"
-      intro="A toolbar that suggests and enables actions based on users' navigation. Suggestions are related to the current page and users can perform actions inside the component, without changing to another page or context. "
+      intro="An infinite scrolling carousel showing a list of logos."
       :tags="['vue', 'tailwindcss']"
     >
       <carousel />
@@ -55,7 +55,7 @@
 
     <display
       title="Animated Cards"
-      intro="A tiny set of animated cards. The idea is to bring a playful and informative way to showcase components."
+      intro="A tiny set of animated cards. The idea is to bring a playful and informative way to display information."
       :tags="['vue', 'tailwindcss']"
     >
       <cards />
