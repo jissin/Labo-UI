@@ -15,7 +15,7 @@ Built out of experiment, not recommended for production.
 
 ## Screenshot
 
-![](./screenshot.png)
+![](./screenshot.jpg)
 
 ## Setup
 
