@@ -3,7 +3,7 @@
 Small laboratory of interactive UI components.  
 Built out of experiment, not recommended for production.
 
-## components
+## Components
 
 - Image Gallery
 - Infinite Scrolling Carousel
