@@ -1,11 +1,10 @@
-export default function useScreenRadio() {
-  const screenRadio = ref(null);
+export default function useScreenRadio(): { screenRadio: Ref<number> } {
+  const screenRadio = ref<number>(1);
 
   const debouncedUpdateScreenRadio = useDebounceFn(updateScreenRadio, 100);
 
   function updateScreenRadio() {
     screenRadio.value = window.innerWidth / window.innerHeight;
-    console.log(screenRadio.value);
   }
 
   onMounted(() => {
@@ -17,5 +16,5 @@ export default function useScreenRadio() {
     window.removeEventListener("resize", debouncedUpdateScreenRadio);
   });
 
-  return screenRadio;
+  return { screenRadio };
 }

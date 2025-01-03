@@ -14,13 +14,10 @@
   </h1>
 </template>
 
-<script setup>
-const props = defineProps({
-  text: {
-    type: String,
-    default: "text",
-  },
-});
+<script setup lang="ts">
+  const props = defineProps<{
+    text: string
+  }>()
 </script>
 
 <style scoped>

@@ -27,19 +27,10 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  title: {
-    type: String,
-    requried: true,
-  },
-  intro: {
-    type: String,
-    requried: true,
-  },
-  tags: {
-    type: Array,
-    default: () => [],
-  },
-});
+<script setup lang="ts">
+const props = defineProps<{
+  title: String
+  intro: String,
+  tags: Array,
+}>();
 </script>

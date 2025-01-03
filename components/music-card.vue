@@ -55,10 +55,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { gsap } from "gsap";
 
-const sheetRef = ref(null);
+const sheetRef = ref<HTMLDivElement | null>(null);
 
 function handleMouseOver() {
   gsap.to(sheetRef.value, {

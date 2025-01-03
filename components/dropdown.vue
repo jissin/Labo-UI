@@ -166,17 +166,22 @@
   </div>
 </template>
 
-<script setup>
-const msgOnHover = ref({
+<script setup lang="ts">
+const msgOnHover = ref<{
+  title: string;
+  desc: string;
+}>({
   title: "Hello",
   desc: "hello world",
-});
-function handleMouseOver(index) {
+})
+
+function handleMouseOver(index: number) {
   msgOnHover.value = {
     title: `Message/${index + 1}`,
     desc: `test/${index + 1}`,
   };
 }
+
 function handleMouseLeave() {
   msgOnHover.value = {
     title: "Hello",

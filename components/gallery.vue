@@ -22,7 +22,7 @@
         :src="sources[activeIndex].src"
         id="active-image"
         class="will-change-transform"
-        :class="screenRadioGTImageRadio ? 'h-full' : 'w-full'"
+        :class="isScreenRatioGreaterThanImageRatio ? 'h-full' : 'w-full'"
         :style="{
           aspectRatio: sources[activeIndex].width / sources[activeIndex].height,
         }"
@@ -31,10 +31,17 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { gsap } from "gsap";
 
-const sources = [
+interface Source {
+  src: string;
+  width: number;
+  height: number;
+  caption: string;
+}
+
+const sources: Source[] = [
   {
     src: "/showcases/2.webp",
     width: 1400,
@@ -92,13 +99,17 @@ const throttleClose = useThrottleFn(close, 520);
 
 const activeIndex = ref(-1);
 
-function open(index) {
+function open(index: number) {
   activeIndex.value = index;
   nextTick(() => {
-    const activeImage = document.querySelector("#active-image");
+    const activeImage = document.querySelector("#active-image") as HTMLImageElement | null;
+    if (!activeImage) return
     const activeImageRect = activeImage.getBoundingClientRect();
-    const originalImage = document.querySelector(`#figure-${index}`);
+
+    const originalImage = document.querySelector(`#figure-${index}`) as HTMLImageElement | null;
+    if (!originalImage) return
     const originalImageRect = originalImage.getBoundingClientRect();
+
     const scaleRadio = originalImageRect.width / activeImageRect.width;
 
     setTimeout(() => {
@@ -116,7 +127,7 @@ function open(index) {
       onComplete: (e) => {},
     });
 
-    const mask = document.querySelector("#mask");
+    const mask = document.querySelector("#mask") as HTMLDivElement | null;
     gsap.to(mask, {
       backgroundColor: "rgba(0,0,0)",
       duration: 0.5,
@@ -127,11 +138,16 @@ function open(index) {
 
 function close() {
   const index = activeIndex.value;
-  const activeImage = document.querySelector("#active-image");
+  const activeImage = document.querySelector("#active-image") as HTMLImageElement | null;
+  if (!activeImage) return
   const activeImageRect = activeImage.getBoundingClientRect();
-  const originalImage = document.querySelector(`#figure-${index}`);
+
+  const originalImage = document.querySelector(`#figure-${index}`) as HTMLImageElement | null;
+  if (!originalImage) return
   const originalImageRect = originalImage.getBoundingClientRect();
+
   const scaleRadio = originalImageRect.width / activeImageRect.width;
+
   const { x, y } = getScaledClientRect(activeImage, scaleRadio);
 
   gsap.to(activeImage, {
@@ -146,7 +162,8 @@ function close() {
     },
   });
 
-  const mask = document.querySelector("#mask");
+  const mask = document.querySelector("#mask") as HTMLDivElement | null;
+  if (!mask) return
   gsap.to(mask, {
     backgroundColor: "rgba(0,0,0,0)",
     duration: 0.5,
@@ -154,7 +171,7 @@ function close() {
   });
 }
 
-function getScaledClientRect(element, radio) {
+function getScaledClientRect(element: HTMLImageElement, radio: number) {
   // 获取元素原始的位置信息
   const rect1 = element.getBoundingClientRect();
 
@@ -178,12 +195,12 @@ function getScaledClientRect(element, radio) {
   return rect2;
 }
 
-const screenRadioGTImageRadio = ref(false);
+const isScreenRatioGreaterThanImageRatio = ref<boolean>(false);
 
-function updateScreenRadioGTImageRadio() {
+function updateisScreenRatioGreaterThanImageRatio() {
   const { width, height } =
     document.querySelector("#active-image")?.getBoundingClientRect() || {};
-  screenRadioGTImageRadio.value = screenRadio.value > width / height;
+  isScreenRatioGreaterThanImageRatio.value = screenRadio.value > width / height;
 }
 
 onMounted(() => {
@@ -193,13 +210,13 @@ onMounted(() => {
   watchEffect(() => {
     if (activeIndex.value > -1) {
       document.body.style.overflow = "hidden";
-      nextTick(updateScreenRadioGTImageRadio);
+      nextTick(updateisScreenRatioGreaterThanImageRatio);
     } else {
       document.body.style.overflow = "auto";
     }
   });
 
-  watchEffect(updateScreenRadioGTImageRadio);
+  watchEffect(updateisScreenRatioGreaterThanImageRatio);
 
   const items = document.querySelectorAll(".photo");
   gsap.from(items, {

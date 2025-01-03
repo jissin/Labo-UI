@@ -85,11 +85,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { gsap } from "gsap";
 
-const widgetRef = ref(null);
-const open = ref(false);
+const widgetRef = ref<HTMLDivElement | null>(null);
+const open = ref<boolean>(false);
 
 function toggle() {
   open.value = !open.value;
